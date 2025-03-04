@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-do-list</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="project">To-do-list</h1>
+      <div class="form">
+        <form>
+          <fieldset>
+            <legend class="form-title">Tambah Tugas Baru</legend>
+
+            <label for="title">Judul :</label>
+            <input type="text" name="title" id="title" required maxlength="30" placeholder="Maksimal 30 karakter" class="title" />
+
+            <label for="content">Content :</label>
+            <textarea name="content" id="content" rows="4" maxlength="250" placeholder="Maksimal 250 karakter" class="textarea"></textarea>
+
+            <button type="submit" class="submit">Tambah Tugas</button>
+          </fieldset>
+        </form>
+      </div>
+      <div class="card-container"></div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
