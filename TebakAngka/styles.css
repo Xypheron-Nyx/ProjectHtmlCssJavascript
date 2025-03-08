@@ -1,0 +1,112 @@
+/* Reset default */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Styling body */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #e3f2fd; /* Warna biru muda */
+  color: #333;
+  padding: 20px;
+}
+
+/* Container styling */
+.container {
+  width: 90%;
+  max-width: 450px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Header */
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Section styling */
+.user,
+.komputer,
+.feedback,
+.attempts {
+  background-color: #f1f8ff; /* Biru sangat muda */
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 30px; /* Beri jarak antar elemen */
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.1);
+}
+
+/* Input dan button */
+input {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #90caf9;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #42a5f5;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #1e88e5;
+}
+
+/* Feedback styling */
+#result {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #bbdefb;
+  border-radius: 5px;
+}
+
+/* Percobaan tersisa */
+#attempts-left {
+  font-size: 14px;
+  color: red;
+  margin-top: 10px;
+}
+
+/* Animasi kecil untuk efek */
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pilUser,
+.pilKomputer {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  animation: pop 0.5s ease;
+}

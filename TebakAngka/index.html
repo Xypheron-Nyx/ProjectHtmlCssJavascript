@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tebak Angka</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Tebak Angka</h1>
+
+      <div class="user">
+        <h3>User</h3>
+        <label for="user">Silahkan tebak angka : </label>
+        <input type="number" id="user" min="1" max="100" />
+        <button id="submit">Tebak</button>
+        <p class="pilUser"></p>
+      </div>
+
+      <div class="feedback">
+        <h3>Hasil</h3>
+        <p class="pilKomputer"></p>
+        <!-- Pilihan komputer ditampilkan di sini -->
+        <p id="result"></p>
+      </div>
+
+      <div class="attempts">
+        <h3>Kesempatan</h3>
+        <p id="attempts-left">Percobaan tersisa: 5</p>
+      </div>
+
+      <button id="restart">Main Lagi</button>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
