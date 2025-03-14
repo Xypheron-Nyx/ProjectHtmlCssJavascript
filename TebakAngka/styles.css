@@ -73,6 +73,25 @@ button:hover {
   background-color: #1e88e5;
 }
 
+.mode {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.mode button {
+  margin-top: 20px;
+  width: 45%; /* Supaya dua tombol bisa sejajar */
+  font-weight: bold;
+  padding: 12px;
+}
+
+.mode button.active {
+  background-color: #1e88e5;
+  box-shadow: 0 0 10px rgba(66, 165, 245, 0.8);
+}
+
 /* Feedback styling */
 #result {
   font-size: 18px;

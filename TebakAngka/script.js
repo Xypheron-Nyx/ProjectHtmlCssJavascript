@@ -1,14 +1,46 @@
+const easyBtn = document.getElementById("easy");
+const hardBtn = document.getElementById("hard"); // Tambahkan tombol hard
+const submit = document.getElementById("submit");
+const restart = document.getElementById("restart");
 let Komp;
-let percobaan = 5;
+let percobaan;
+let mode = ""; // Mode awal kosong agar user harus memilih dulu
 
-function generateRandomNumber() {
-  Komp = Math.ceil(Math.random() * 100);
+function setMode(modePilihan) {
+  mode = modePilihan; // Simpan mode yang dipilih
+
+  if (mode === "mudah") {
+    Komp = Math.ceil(Math.random() * 50);
+    percobaan = 10;
+    document.getElementById("mode-text").innerText = `Mode: MUDAH (1 - 50)`;
+  } else if (mode === "sulit") {
+    Komp = Math.ceil(Math.random() * 100);
+    percobaan = 5;
+    document.getElementById("mode-text").innerText = `Mode: SULIT (1 - 100)`;
+  }
+
+  // Update UI
+  document.getElementById("attempts-left").innerText = `Percobaan tersisa: ${percobaan}`;
+  document.querySelector(".pilUser").innerHTML = "";
+  document.getElementById("result").innerHTML = "";
+
+  // Aktifkan tombol submit setelah memilih mode
+  submit.disabled = false;
+  submit.style.background = "#42a5f5";
+
+  // Debugging
+  console.log("Angka Komputer:", Komp);
 }
 
-generateRandomNumber();
+// Event listener untuk memilih mode
+easyBtn.addEventListener("click", function () {
+  setMode("mudah");
+});
 
-// Ketika tombol "Tebak" diklik:
-const submit = document.getElementById("submit");
+hardBtn.addEventListener("click", function () {
+  setMode("sulit");
+});
+
 submit.addEventListener("click", function () {
   const user = Number(document.getElementById("user").value);
   const pilUser = document.querySelector(".pilUser");
@@ -18,13 +50,14 @@ submit.addEventListener("click", function () {
   // Menampilkan angka yang ditebak oleh user
   pilUser.innerHTML = `Tebakan: ${user}`;
 
-  // Validasi input
-  if (user < 1 || user > 100 || isNaN(user)) {
-    alert("Input tidak valid! Masukkan angka 1 - 100.");
+  // Validasi input sesuai mode
+  let batasAtas = mode === "mudah" ? 50 : 100;
+  if (user < 1 || user > batasAtas || isNaN(user)) {
+    alert(`Input tidak valid! Masukkan angka 1 - ${batasAtas}.`);
     return;
   }
 
-  percobaan--; // Mengurangi kesempatan hanya sekali
+  percobaan--; // Mengurangi kesempatan
 
   // Menentukan hasil
   if (user > Komp) {
@@ -32,29 +65,25 @@ submit.addEventListener("click", function () {
   } else if (user < Komp) {
     result.innerHTML = "Terlalu Kecil";
   } else {
-    result.innerHTML = "Selamat! Anda benar";
+    result.innerHTML = "🎉 Selamat! Anda benar!";
+    submit.disabled = true; // Matikan tombol tebak
+    submit.style.background = "grey";
   }
 
   // Update sisa percobaan
   attempts.innerHTML = `Percobaan tersisa: ${percobaan}`;
 
-  // Jika percobaan habis, game over
+  // Jika percobaan habis dan belum benar
   if (percobaan === 0 && user !== Komp) {
     result.innerHTML = `Game Over! Angka yang benar adalah ${Komp}`;
-    submit.disabled = true; // Menonaktifkan tombol tebak
+    submit.disabled = true;
     submit.style.background = "grey";
   }
 });
 
-// Reset game ketika tombol restart ditekan
-document.getElementById("restart").addEventListener("click", function () {
-  generateRandomNumber();
-  percobaan = 5;
-
-  // Reset tampilan
-  document.querySelector(".pilUser").innerHTML = "";
-  document.getElementById("result").innerHTML = "";
-  document.getElementById("attempts-left").innerHTML = `Percobaan tersisa: ${percobaan}`;
-  submit.disabled = false; // Mengaktifkan kembali tombol tebak
+restart.addEventListener("click", function () {
+  setMode(mode); // Reset sesuai mode yang terakhir dipilih
+  submit.disabled = false;
   submit.style.background = "#42a5f5";
+  document.getElementById("user").value = ""; // Kosongkan input tebakan
 });
