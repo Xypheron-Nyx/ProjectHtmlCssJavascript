@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-400 to-blue-700">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-96 text-center">
+      <h1 class="text-3xl font-bold text-gray-800 mb-4">🌤 Weather App</h1>
+
+      <!-- Input Kota -->
+      <input id="cityInput" type="text" placeholder="Enter city..." class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-center text-lg" />
+
+      <button id="searchBtn" class="mt-4 w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition">Search</button>
+
+      <div id="loader" class="text-center hidden mt-4">
+        <p class="text-lg text-gray-600">⏳ Loading...</p>
+      </div>
+
+      <!-- Hasil Cuaca -->
+      <div id="weatherResult" class="mt-6 hidden">
+        <h2 id="cityName" class="text-2xl font-semibold text-gray-800"></h2>
+        <p id="regionCountry" class="text-gray-600"></p>
+
+        <img id="weatherIcon" class="mx-auto my-2 w-24 h-24" alt="Weather Icon" />
+
+        <p id="temperature" class="text-3xl font-bold text-blue-500"></p>
+        <p id="condition" class="text-lg text-gray-600"></p>
+
+        <div class="mt-4 grid gap-4 text-gray-700">
+          <div class="loader"></div>
+          <div class="flex flex-col items-center">
+            <span class="text-xl font-medium" id="windSpeed"></span>
+            <span class="text-sm">💨 Wind Speed</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-xl font-medium" id="humidity"></span>
+            <span class="text-sm">💧 Humidity</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
