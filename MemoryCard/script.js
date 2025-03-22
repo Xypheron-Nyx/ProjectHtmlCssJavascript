@@ -6,24 +6,32 @@
 // 6️⃣ Tambahkan logika supaya kartu tetap terbuka jika cocok, atau tertutup lagi jika tidak cocok.
 // 7️⃣ Tambahkan kondisi menang jika semua kartu sudah terbuka.
 
-const mulai = document.querySelector(".mulai");
 const gameContainer = document.querySelector(".game-container");
+const mulai = document.querySelector(".mulai");
 const reset = document.querySelector(".muat-ulang");
-reset.classList.add("hidden");
 const hitung = document.querySelector("#timer");
-let waktu = 6;
-let hitungMundur;
+const h1Hitung = document.querySelector(".waktu");
+reset.classList.add("hidden");
+hitung.classList.add("hidden");
+h1Hitung.classList.add("hidden");
 
+let hitungMundur;
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
 let matchedPairs = 0;
+let waktu = 60;
 
 const numbers = Array.from({ length: 8 }, (_, i) => i + 1);
 
 mulai.addEventListener("click", function () {
   reset.classList.remove("hidden");
+  hitung.classList.remove("hidden");
+  h1Hitung.classList.remove("hidden");
+
   mulai.disabled = true;
+  lockBoard = false; // 🔹 Baru dibuka di sini setelah pemain tekan "Mulai"
+
   createCards();
   timer();
 });
@@ -77,7 +85,7 @@ function handleCardClick(card, cardBody) {
 
     if (firstCard.dataset.value === secondCard.dataset.value) {
       matchedPairs++;
-      checkWin();
+      checkEndGame();
       resetBoard();
     } else {
       setTimeout(() => {
@@ -100,17 +108,20 @@ function timer() {
 function checkEndGame() {
   if (waktu === 0) {
     clearInterval(hitungMundur);
+    lockBoard = true;
     document.getElementById("result-message").innerHTML = "Waktu habis! ⏳😵 Coba lagi ya, jangan menyerah!";
     document.getElementById("result-message").classList.remove("hidden");
     document.getElementById("result-message").classList.add("show");
+    document.getElementById("result-message").classList.add("lose");
     mulai.disabled = false;
-    lockBoard = true;
   } else if (matchedPairs === 8) {
     clearInterval(hitungMundur);
     document.getElementById("result-message").innerHTML = "🎉 Selamat! Kamu Menang! 🎉";
     document.getElementById("result-message").classList.remove("hidden");
     document.getElementById("result-message").classList.add("show");
+    document.getElementById("result-message").classList.add("win");
     mulai.disabled = false;
+    lockBoard = true;
   }
 }
 
@@ -121,13 +132,23 @@ function resetBoard() {
 }
 
 reset.addEventListener("click", () => {
-  gameContainer.innerHTML = "";
+  clearInterval(hitungMundur); // 🔹 Stop timer sebelum reset
+  waktu = 60; // 🔹 Reset waktu
+  hitung.innerHTML = waktu; // 🔹 Perbarui tampilan timer
+
+  gameContainer.innerHTML = ""; // 🔹 Bersihkan kartu yang lama
   firstCard = null;
   secondCard = null;
-  lockBoard = false;
   matchedPairs = 0;
-  mulai.disabled = false; // 🔹 Aktifkan tombol "Mulai" kembali
-  document.getElementById("win-message").classList.add("hidden");
-  document.getElementById("win-message").classList.remove("show");
-  createCards();
+
+  lockBoard = true; // 🔹 Kunci permainan setelah reset
+  mulai.disabled = false; // 🔹 Aktifkan kembali tombol "Mulai"
+
+  document.getElementById("result-message").classList.add("hidden");
+  document.getElementById("result-message").classList.remove("show");
+  reset.classList.add("hidden");
+  hitung.classList.add("hidden");
+  h1Hitung.classList.add("hidden");
+
+  // Tidak panggil createCards() atau timer() di sini, biar mulai baru yang handle
 });

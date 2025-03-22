@@ -36,7 +36,6 @@ h1 {
 }
 
 #timer {
-  display: block;
   text-align: center;
   margin: 20px auto 50px;
   font-size: 2rem;
@@ -115,10 +114,17 @@ h1 {
   margin-top: 20px;
   font-size: 24px;
   font-weight: bold;
-  color: #2ecc71;
   text-align: center;
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
+}
+
+.win {
+  color: #2ecc71;
+}
+
+.lose {
+  color: #b81422;
 }
 
 #result-message.show {
