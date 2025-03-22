@@ -6,6 +6,9 @@
 // 6️⃣ Tambahkan logika supaya kartu tetap terbuka jika cocok, atau tertutup lagi jika tidak cocok.
 // 7️⃣ Tambahkan kondisi menang jika semua kartu sudah terbuka.
 
+let firstCard = null;
+let secondCard = null;
+let lockBoard = false;
 document.addEventListener("DOMContentLoaded", () => {
   const gameContainer = document.querySelector(".game-container");
   let numbers = Array.from({ length: 8 }, (_, i) => i + 1);
@@ -22,6 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
   pairedNumbers.forEach((num) => {
     let card = document.createElement("div");
     card.classList.add("card");
+
+    card.dataset.value = num;
 
     let cardBody = document.createElement("div");
     cardBody.classList.add("card-body");
@@ -40,7 +45,31 @@ document.addEventListener("DOMContentLoaded", () => {
     gameContainer.appendChild(card);
 
     card.addEventListener("click", () => {
-      card.classList.toggle("flip");
+      if (lockBoard || card === firstCard) return;
+      cardBody.classList.add("card-body-animation");
+
+      if (!firstCard) {
+        firstCard = card;
+      } else {
+        secondCard = card;
+        lockBoard = true;
+
+        if (firstCard.dataset.value === secondCard.dataset.value) {
+          firstCard = null;
+          secondCard = null;
+        } else {
+          setTimeout(() => {
+            firstCard.querySelector(".card-body").classList.remove("card-body-animation");
+            secondCard.querySelector(".card-body").classList.remove("card-body-animation");
+
+            firstCard = null;
+            secondCard = null;
+            lockBoard = false;
+          }, 700);
+        }
+      }
+      console.log(firstCard);
+      console.log(secondCard);
     });
   });
 });
