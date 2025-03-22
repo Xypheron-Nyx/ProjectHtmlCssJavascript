@@ -1,3 +1,12 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Untuk Firefox */
+html {
+  scrollbar-width: none;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -9,6 +18,28 @@ body {
 
 h1 {
   text-align: center;
+}
+
+.mulai {
+  display: block;
+  width: 100px;
+  padding: 10px;
+  margin: 50px auto;
+  background-color: aqua;
+  border-radius: 10px;
+  box-shadow: 1px 1px 3px black;
+}
+
+.waktu {
+  text-align: center;
+  font-size: 2.1rem;
+}
+
+#timer {
+  display: block;
+  text-align: center;
+  margin: 20px auto 50px;
+  font-size: 2rem;
 }
 
 .muat-ulang {
@@ -80,20 +111,20 @@ h1 {
   transform: rotateY(180deg);
 }
 
-#win-message {
-    margin-top: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #2ecc71;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+#result-message {
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #2ecc71;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
-#win-message.show {
-    opacity: 1;
+#result-message.show {
+  opacity: 1;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }

@@ -6,102 +6,128 @@
 // 6️⃣ Tambahkan logika supaya kartu tetap terbuka jika cocok, atau tertutup lagi jika tidak cocok.
 // 7️⃣ Tambahkan kondisi menang jika semua kartu sudah terbuka.
 
+const mulai = document.querySelector(".mulai");
+const gameContainer = document.querySelector(".game-container");
+const reset = document.querySelector(".muat-ulang");
+reset.classList.add("hidden");
+const hitung = document.querySelector("#timer");
+let waktu = 6;
+let hitungMundur;
+
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
 let matchedPairs = 0;
 
-document.addEventListener("DOMContentLoaded", () => {
-  const gameContainer = document.querySelector(".game-container");
-  const reset = document.querySelector(".muat-ulang");
-  let numbers = Array.from({ length: 8 }, (_, i) => i + 1);
-  let pairedNumbers = [...numbers, ...numbers];
+const numbers = Array.from({ length: 8 }, (_, i) => i + 1);
 
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
+mulai.addEventListener("click", function () {
+  reset.classList.remove("hidden");
+  mulai.disabled = true;
+  createCards();
+  timer();
+});
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
+}
 
-  function createCards() {
-    gameContainer.innerHTML = ""; // Kosongkan kontainer sebelum buat ulang kartu
-    shuffleArray(pairedNumbers); // Acak ulang kartu
+function createCards() {
+  gameContainer.innerHTML = "";
+  let pairedNumbers = [...numbers, ...numbers]; // Buat array baru setiap kali
+  shuffleArray(pairedNumbers);
 
-    pairedNumbers.forEach((num) => {
-      let card = document.createElement("div");
-      card.classList.add("card");
-      card.dataset.value = num;
+  pairedNumbers.forEach((num) => {
+    let card = document.createElement("div");
+    card.classList.add("card");
+    card.dataset.value = num;
 
-      let cardBody = document.createElement("div");
-      cardBody.classList.add("card-body");
+    let cardBody = document.createElement("div");
+    cardBody.classList.add("card-body");
 
-      let front = document.createElement("div");
-      front.classList.add("front");
-      front.textContent = "?"; // Sisi tertutup
+    let front = document.createElement("div");
+    front.classList.add("front");
+    front.textContent = "?";
 
-      let back = document.createElement("div");
-      back.classList.add("back");
-      back.textContent = num; // Angka tersembunyi
+    let back = document.createElement("div");
+    back.classList.add("back");
+    back.textContent = num;
 
-      cardBody.appendChild(front);
-      cardBody.appendChild(back);
-      card.appendChild(cardBody);
-      gameContainer.appendChild(card);
+    cardBody.appendChild(front);
+    cardBody.appendChild(back);
+    card.appendChild(cardBody);
+    gameContainer.appendChild(card);
 
-      card.addEventListener("click", () => handleCardClick(card, cardBody));
-    });
-  }
-
-  function handleCardClick(card, cardBody) {
-    if (lockBoard || card === firstCard) return;
-    cardBody.classList.add("card-body-animation");
-
-    if (!firstCard) {
-      firstCard = card;
-    } else {
-      secondCard = card;
-      lockBoard = true;
-
-      if (firstCard.dataset.value === secondCard.dataset.value) {
-        matchedPairs++;
-        checkWin();
-        resetBoard();
-      } else {
-        setTimeout(() => {
-          firstCard.querySelector(".card-body").classList.remove("card-body-animation");
-          secondCard.querySelector(".card-body").classList.remove("card-body-animation");
-          resetBoard();
-        }, 700);
-      }
-    }
-  }
-
-  function checkWin() {
-    if (matchedPairs === 8) {
-      setTimeout(() => {
-        document.getElementById("win-message").classList.remove("hidden");
-        document.getElementById("win-message").classList.add("show");
-      }, 500);
-    }
-  }
-
-  function resetBoard() {
-    firstCard = null;
-    secondCard = null;
-    lockBoard = false;
-  }
-
-  reset.addEventListener("click", () => {
-    gameContainer.innerHTML = "";
-    firstCard = null;
-    secondCard = null;
-    lockBoard = false;
-    matchedPairs = 0;
-    document.getElementById("win-message").classList.add("hidden");
-    document.getElementById("win-message").classList.remove("show");
-    createCards();
+    card.addEventListener("click", () => handleCardClick(card, cardBody));
   });
+}
 
-  createCards(); // Mulai game pertama kali
+function handleCardClick(card, cardBody) {
+  if (lockBoard || card === firstCard) return;
+  cardBody.classList.add("card-body-animation");
+
+  if (!firstCard) {
+    firstCard = card;
+  } else {
+    secondCard = card;
+    lockBoard = true;
+
+    if (firstCard.dataset.value === secondCard.dataset.value) {
+      matchedPairs++;
+      checkWin();
+      resetBoard();
+    } else {
+      setTimeout(() => {
+        firstCard.querySelector(".card-body").classList.remove("card-body-animation");
+        secondCard.querySelector(".card-body").classList.remove("card-body-animation");
+        resetBoard();
+      }, 700);
+    }
+  }
+}
+
+function timer() {
+  hitungMundur = setInterval(function () {
+    waktu--;
+    hitung.innerHTML = waktu;
+    checkEndGame(); // Cek apakah waktu habis atau semua kartu cocok
+  }, 1000);
+}
+
+function checkEndGame() {
+  if (waktu === 0) {
+    clearInterval(hitungMundur);
+    document.getElementById("result-message").innerHTML = "Waktu habis! ⏳😵 Coba lagi ya, jangan menyerah!";
+    document.getElementById("result-message").classList.remove("hidden");
+    document.getElementById("result-message").classList.add("show");
+    mulai.disabled = false;
+    lockBoard = true;
+  } else if (matchedPairs === 8) {
+    clearInterval(hitungMundur);
+    document.getElementById("result-message").innerHTML = "🎉 Selamat! Kamu Menang! 🎉";
+    document.getElementById("result-message").classList.remove("hidden");
+    document.getElementById("result-message").classList.add("show");
+    mulai.disabled = false;
+  }
+}
+
+function resetBoard() {
+  firstCard = null;
+  secondCard = null;
+  lockBoard = false;
+}
+
+reset.addEventListener("click", () => {
+  gameContainer.innerHTML = "";
+  firstCard = null;
+  secondCard = null;
+  lockBoard = false;
+  matchedPairs = 0;
+  mulai.disabled = false; // 🔹 Aktifkan tombol "Mulai" kembali
+  document.getElementById("win-message").classList.add("hidden");
+  document.getElementById("win-message").classList.remove("show");
+  createCards();
 });
