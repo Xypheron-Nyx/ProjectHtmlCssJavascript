@@ -1,0 +1,92 @@
+/* Untuk browser berbasis WebKit (Chrome, Safari, Edge terbaru) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Untuk Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Ubuntu, sans-serif; /* Pakai font yang kamu suka */
+  background-color: #f4f4f4; /* Warna latar belakang soft */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+form {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
+
+legend {
+  margin-bottom: 50px;
+  padding-bottom: 5px;
+  font-size: 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid black;
+}
+
+label {
+  font-weight: bold;
+  margin-top: 10px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff; /* Biru favoritmu 😉 */
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #007bff; /* Biru biar keren */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #0056b3; /* Biru lebih gelap saat hover */
+}
+
+button:active {
+  background-color: #004494; /* Biru lebih gelap saat diklik */
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: none; /* Default-nya tidak terlihat */
+}
+
+.success {
+  border-color: #28a745 !important; /* Warna hijau untuk valid */
+}
