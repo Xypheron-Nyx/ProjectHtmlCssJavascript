@@ -10,18 +10,18 @@
     <form action="">
       <legend>Form Validator</legend>
       <label for="email">Email</label>
-      <input type="email" id="email" />
-      <div class="error" id="error-email"></div>
+      <input type="text" id="email" title="Masukkan email dengan format: nama@domain.com" required />
+      <div class="message" id="error-email"></div>
 
       <label for="password">Password</label>
-      <input type="password" id="password" />
-      <div class="error" id="error-password"></div>
+      <input type="password" id="password" required />
+      <div class="message" id="error-password"></div>
 
       <label for="telp">Nomor Telepon</label>
-      <input type="number" id="telp" />
-      <div class="error" id="error-telp"></div>
+      <input type="number" id="telp" required />
+      <div class="message" id="error-telp"></div>
 
-      <button type="submit">Kirim</button>
+      <button type="submit" id="submit">Kirim</button>
     </form>
 
     <script src="script.js"></script>
