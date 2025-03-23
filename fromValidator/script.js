@@ -7,11 +7,13 @@ const errorPass = document.getElementById("error-password");
 const errorTelp = document.getElementById("error-telp");
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const regexPass = /^(?=(.*[a-z]{2,}))(?=.*[A-Z])(?=.*\d){8,}$/;
+const regexTelp = /^(\+62|62|0)8[1-9]{1}\d{1}[\s-]?\d{4}[\s-]?\d{2,5}$/;
 
 submit.addEventListener("click", function (event) {
   event.preventDefault();
   cekEmail(email.value);
   cekPass(password.value);
+  cekTelp(telp.value);
 });
 
 function cekEmail(value) {
@@ -51,10 +53,36 @@ function cekPass(value) {
     password.classList.remove("success");
     errorPass.style.color = "red";
   } else {
-    errorPass.textContent = "Format email valid";
+    errorPass.textContent = "Format password valid";
     password.classList.add("success");
     password.classList.remove("error");
     errorPass.style.color = "green";
   }
   errorPass.style.display = "block";
+}
+
+function cekTelp(value) {
+  value.replace(/e/g, "");
+  if (value === "") {
+    errorTelp.textContent = "Nomor Telepon tidak boleh kosong!";
+    telp.classList.add("error");
+    telp.classList.remove("success");
+    errorTelp.style.color = "red";
+  } else if (value.length < 12) {
+    errorTelp.textContent = "Nomor telepon minimal 8 karakter";
+    telp.classList.add("error");
+    telp.classList.remove("success");
+    errorTelp.style.color = "red";
+  } else if (!regexPass.test(value)) {
+    errorTelp.textContent = "Format telepon tidak valid";
+    telp.classList.add("error");
+    telp.classList.remove("success");
+    errorTelp.style.color = "red";
+  } else {
+    errorTelp.textContent = "Format telepon valid";
+    telp.classList.add("success");
+    telp.classList.remove("error");
+    errorTelp.style.color = "green";
+  }
+  errorTelp.style.display = "block";
 }
