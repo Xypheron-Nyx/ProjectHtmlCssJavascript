@@ -9,12 +9,12 @@
   <body>
     <form action="">
       <legend>Form Validator</legend>
-      <label for="email">Email</label>
-      <input type="text" id="email" title="Masukkan email dengan format: nama@domain.com" required />
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="user@example.com" title="Gunakan format email yang valid" required />
       <div class="message" id="error-email"></div>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" required />
+      <label for="password">Password:</label>
+      <input type="password" id="password" placeholder="Minimal 8 karakter" title="Minimal 8 karakter, harus ada huruf besar, kecil, dan angka" required />
       <div class="message" id="error-password"></div>
 
       <label for="telp">Nomor Telepon</label>
