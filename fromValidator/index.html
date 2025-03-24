@@ -14,11 +14,16 @@
       <div class="message" id="error-email"></div>
 
       <label for="password">Password:</label>
-      <input type="password" id="password" placeholder="Minimal 8 karakter" title="Minimal 8 karakter, harus ada huruf besar, kecil, dan angka" />
+      <div class="password-container">
+        <input type="password" id="password" placeholder="Enter password" />
+        <span id="togglePassword">
+          <i class="fa fa-eye">👁️</i>
+        </span>
+      </div>
       <div class="message" id="error-password"></div>
 
       <label for="telp">Nomor Telepon</label>
-      <input type="number" id="telp" inputmode="numeric" pattern="[0-9]*" />
+      <input type="text" id="telp" inputmode="numeric" pattern="[0-9]*" />
       <div class="message" id="error-telp"></div>
 
       <button type="submit" id="submit">Kirim</button>
