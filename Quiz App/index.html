@@ -19,7 +19,14 @@
   <body class="bg-teal-200">
     <div class="flex flex-col justify-center items-center min-h-screen">
       <h1 class="text-5xl font-bold mb-8">Quiz App</h1>
-      <button id="start" class="w-20 bg-green-500 text-white p-2 rounded-xl hover:bg-green-700 transition duration-300">Mulai</button>
+      <button id="start" class="w-20 mb-8 bg-green-500 text-white p-2 rounded-xl hover:bg-green-700 transition duration-300">Mulai</button>
+      <div id="difficulty-buttons" class="hidden opacity-0 translate-y-10 blur-md transition-all duration-700">
+        <div class="flex gap-4">
+          <button id="mode" class="difficulty-btn bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700" data-level="Easy">Easy</button>
+          <button id="mode" class="difficulty-btn bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-700" data-level="Medium">Medium</button>
+          <button id="mode" class="difficulty-btn bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700" data-level="hard">Hard</button>
+        </div>
+      </div>
       <div id="container" class="mx-auto hidden opacity-0 translate-y-10 blur-md transition-all duration-700">
         <div id="timer" class="p-3 mb-4 text-center">
           <h1 class="text-3xl mb-4 p-2 border-b-2 border-slate-700">Timer</h1>
@@ -39,6 +46,6 @@
         <button id="reset" class="max-w-xl mx-auto block w-20 bg-red-500 text-white p-2 rounded-xl hover:bg-red-700">Reset</button>
       </div>
     </div>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
   </body>
 </html>
