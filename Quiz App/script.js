@@ -27,6 +27,15 @@ let currentQuestions = [];
 let totallyCorrect = [];
 let goodAnswer = [];
 
+// variabel timer
+let modeTimer;
+let timer;
+let isRunning = false;
+let seconds = 0,
+  minutes = 0;
+const targetTime = new Date().getTime() + 1 * 60 * 1000; // Waktu target dalam milidetik
+console.log(targetTime);
+
 // Start button event = untuk masuk ke pemilihan mode kesulitan
 startBtn.addEventListener("click", function () {
   showDifficultySelection();
@@ -46,6 +55,7 @@ diffButton.addEventListener("click", function (e) {
   let mode = e.target.dataset.level;
   let filteredQuestions = getQuestionsByLevel(mode);
   startQuiz(filteredQuestions);
+  modeTimer = mode;
 });
 
 // filter mode
@@ -65,6 +75,7 @@ function startQuiz(filteredQuestions) {
   currentQuestions.forEach((currentQuestion) => shuffle(currentQuestion.pilihan));
   // tampilkan soal pertama
   showQuestion(currentQuestions[currentIndex]); // Tampilkan soal pertama
+  startTimer(modeTimer);
 }
 
 // function startAnimation
@@ -118,7 +129,6 @@ function nextQuestion() {
     console.log(goodAnswer);
   }
 }
-
 // function cek jawaban
 function checkAnswer() {
   totallyCorrect.forEach((g, i) => {
@@ -126,4 +136,64 @@ function checkAnswer() {
       goodAnswer.push(g);
     }
   });
+}
+
+// function display timer
+function updateDisplay() {
+  let formattedTime = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+  document.getElementById("displayTimer").textContent = formattedTime;
+}
+
+// function start timer
+function startTimer(mode) {
+  if (!isRunning) {
+    isRunning = true;
+
+    if (mode === "Easy") {
+      minutes = 2;
+    } else if (mode === "Medium") {
+      minutes = 5;
+    } else if (mode === "Hard") {
+      minutes = 10;
+    }
+
+    seconds = 0; // Set detik ke 59 agar tidak langsung habis!
+
+    // Hapus interval sebelumnya jika ada
+    if (timer) {
+      clearInterval(timer);
+    }
+
+    timer = setInterval(updateCountdown, 1000);
+  }
+}
+
+function updateCountdown() {
+  if (minutes === 0 && seconds === 0) {
+    clearInterval(timer);
+    isRunning = false;
+    console.log("Waktu habis!");
+    return;
+  }
+
+  if (seconds > 0) {
+    seconds--; // Kurangi detik dulu
+  } else {
+    if (minutes > 0) {
+      minutes--; // Kurangi menit jika masih ada
+      seconds = 59; // Reset detik ke 59
+    }
+  }
+
+  updateDisplay(); // Pastikan tampilan diperbarui setiap detik
+}
+
+function resetTimer() {
+  clearInterval(timer); // Langsung clear tanpa panggil stopTimer()
+  isRunning = false;
+  document.getElementById("startBtn").disabled = false;
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
+  updateDisplay();
 }
