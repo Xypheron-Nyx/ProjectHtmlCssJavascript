@@ -1,5 +1,5 @@
 // soal
-import { quizQuestions } from "./soal.js"; // Harus pakai "./" untuk file lokal
+import { quizQuestions } from "./module/soal.js";
 
 // ambil element mulai
 const startBtn = document.getElementById("start");
@@ -21,7 +21,7 @@ const totalQuest = document.getElementById("total-questions");
 let currentIndex = 0;
 
 // kumpulan pertanyaan sesuai level, sama aja kayak filteredQuestions tapi ini untuk global
-let currentQuestions = [];
+let currentQuestions;
 
 // total benar
 let totallyCorrect = [];
@@ -29,12 +29,11 @@ let goodAnswer = [];
 
 // variabel timer
 let modeTimer;
-let timer;
-let isRunning = false;
-let seconds = 0,
-  minutes = 0;
+let minutes = 0;
+let seconds;
+let min;
+let sec;
 const targetTime = new Date().getTime() + 1 * 60 * 1000; // Waktu target dalam milidetik
-console.log(targetTime);
 
 // Start button event = untuk masuk ke pemilihan mode kesulitan
 startBtn.addEventListener("click", function () {
@@ -54,8 +53,8 @@ function showDifficultySelection() {
 diffButton.addEventListener("click", function (e) {
   let mode = e.target.dataset.level;
   let filteredQuestions = getQuestionsByLevel(mode);
-  startQuiz(filteredQuestions);
   modeTimer = mode;
+  startQuiz(filteredQuestions);
 });
 
 // filter mode
@@ -67,15 +66,12 @@ function getQuestionsByLevel(level) {
 function startQuiz(filteredQuestions) {
   startAnimation();
   currentIndex = 0;
-  // simpan pertanyaan ke currentQuestions
   currentQuestions = filteredQuestions;
-  // Acak pertanyaan
   shuffle(currentQuestions);
-  // Acak pilihan di setiap pertanyaan
   currentQuestions.forEach((currentQuestion) => shuffle(currentQuestion.pilihan));
-  // tampilkan soal pertama
-  showQuestion(currentQuestions[currentIndex]); // Tampilkan soal pertama
-  startTimer(modeTimer);
+  showQuestion(currentQuestions[currentIndex]);
+  startCountdown();
+  console.log(currentQuestions);
 }
 
 // function startAnimation
@@ -100,10 +96,8 @@ function showQuestion(currentQuestion) {
   levelEl.textContent = currentQuestion.level;
   questionEl.textContent = currentQuestion.soal;
   optionsEl.forEach((btn, index) => {
-    btn.textContent = currentQuestion.pilihan[index]; // Perbarui teks tombol
+    btn.textContent = currentQuestion.pilihan[index];
   });
-
-  // Update nomor soal
   currentQuest.textContent = currentIndex + 1;
   totalQuest.textContent = currentQuestions.length;
 }
@@ -112,7 +106,6 @@ function showQuestion(currentQuestion) {
 optionsEl.forEach((btn) => {
   btn.addEventListener("click", function (e) {
     totallyCorrect.push(e.target.textContent);
-    console.log(totallyCorrect);
     nextQuestion();
   });
 });
@@ -120,15 +113,15 @@ optionsEl.forEach((btn) => {
 // function pindah soal
 function nextQuestion() {
   if (currentIndex < currentQuestions.length - 1) {
-    currentIndex++; // Naik ke soal berikutnya
-    showQuestion(currentQuestions[currentIndex]); // Tampilkan soal baru
+    currentIndex++;
+    showQuestion(currentQuestions[currentIndex]);
   } else {
     alert("Kuis selesai!");
     checkAnswer();
     optionsEl.forEach((btn) => btn.setAttribute("disabled", "true"));
-    console.log(goodAnswer);
   }
 }
+
 // function cek jawaban
 function checkAnswer() {
   totallyCorrect.forEach((g, i) => {
@@ -140,60 +133,33 @@ function checkAnswer() {
 
 // function display timer
 function updateDisplay() {
-  let formattedTime = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+  let formattedTime = (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
   document.getElementById("displayTimer").textContent = formattedTime;
 }
 
-// function start timer
-function startTimer(mode) {
-  if (!isRunning) {
-    isRunning = true;
-
-    if (mode === "Easy") {
-      minutes = 2;
-    } else if (mode === "Medium") {
-      minutes = 5;
-    } else if (mode === "Hard") {
-      minutes = 10;
-    }
-
-    seconds = 0; // Set detik ke 59 agar tidak langsung habis!
-
-    // Hapus interval sebelumnya jika ada
-    if (timer) {
-      clearInterval(timer);
-    }
-
-    timer = setInterval(updateCountdown, 1000);
-  }
-}
-
-function updateCountdown() {
-  if (minutes === 0 && seconds === 0) {
-    clearInterval(timer);
-    isRunning = false;
-    console.log("Waktu habis!");
-    return;
+// function tangkap mode
+function startCountdown() {
+  if (modeTimer === "Easy") {
+    minutes = 1;
+  } else if (modeTimer === "Medium") {
+    minutes = 5;
+  } else if (modeTimer === "Hard") {
+    minutes = 10;
   }
 
-  if (seconds > 0) {
-    seconds--; // Kurangi detik dulu
-  } else {
-    if (minutes > 0) {
-      minutes--; // Kurangi menit jika masih ada
-      seconds = 59; // Reset detik ke 59
+  seconds = minutes * 6; // Konversi menit ke total detik
+
+  let interval = setInterval(() => {
+    min = Math.floor(seconds / 60);
+    sec = seconds % 60;
+    updateDisplay();
+
+    if (seconds === 0) {
+      clearInterval(interval);
+      alert("Waktu habis!");
+      optionsEl.forEach((btn) => btn.setAttribute("disabled", "true"));
     }
-  }
 
-  updateDisplay(); // Pastikan tampilan diperbarui setiap detik
-}
-
-function resetTimer() {
-  clearInterval(timer); // Langsung clear tanpa panggil stopTimer()
-  isRunning = false;
-  document.getElementById("startBtn").disabled = false;
-  seconds = 0;
-  minutes = 0;
-  hours = 0;
-  updateDisplay();
+    seconds--; // Langsung kurangi detik
+  }, 1000);
 }
